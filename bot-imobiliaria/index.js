@@ -64,4 +64,3 @@ app.post("/webhook", (req, res) => {
 // 👉 PORTA CORRETA (OBRIGATÓRIO NO RENDER)
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log("Servidor rodando 🚀"));
-res.send("TESTE 123 🚀");
