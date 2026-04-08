@@ -3,19 +3,23 @@ import express from "express";
 const app = express();
 app.use(express.json());
 
-// Aqui guardamos o estado de cada usuário
+// Estado dos usuários
 const etapas = {};
 
+// 👉 ROTA PRINCIPAL (teste no navegador)
+app.get("/", (req, res) => {
+  res.send("Bot imobiliário rodando 🚀");
+});
+
+// 👉 WEBHOOK
 app.post("/webhook", (req, res) => {
   const numero = req.body.numero || "teste";
   const mensagem = (req.body.mensagem || "").toLowerCase();
 
-  // Se for a primeira vez
   if (!etapas[numero]) {
     etapas[numero] = "inicio";
   }
 
-  // ETAPA INICIAL
   if (etapas[numero] === "inicio") {
     etapas[numero] = "menu";
     return res.json({
@@ -23,7 +27,6 @@ app.post("/webhook", (req, res) => {
     });
   }
 
-  // MENU
   if (etapas[numero] === "menu") {
     if (mensagem.includes("1")) {
       etapas[numero] = "tipo";
@@ -39,7 +42,6 @@ app.post("/webhook", (req, res) => {
     }
   }
 
-  // TIPO DE IMÓVEL
   if (etapas[numero] === "tipo") {
     etapas[numero] = "preco";
     return res.json({
@@ -47,7 +49,6 @@ app.post("/webhook", (req, res) => {
     });
   }
 
-  // PREÇO
   if (etapas[numero] === "preco") {
     etapas[numero] = "final";
     return res.json({
@@ -55,34 +56,12 @@ app.post("/webhook", (req, res) => {
     });
   }
 
-  // FALLBACK
   res.json({
     reply: "Desculpa, não entendi 😅"
   });
 });
 
-app.listen(3000, () => {
-  console.log("Servidor rodando na porta 3000");
-});
-app.get("/", (req, res) => {
-  res.send("Bot imobiliário rodando 🚀");
-});
-const express = require("express");
-const app = express();
-
-app.use(express.json());
-
-// 👉 ROTA PRINCIPAL (resolve o "Cannot GET /")
-app.get("/", (req, res) => {
-  res.send("Bot rodando 🚀");
-});
-
-// 👉 SEU WEBHOOK
-app.post("/webhook", (req, res) => {
-  res.json({ reply: "Webhook funcionando ✅" });
-});
-
-// 👉 PORTA OBRIGATÓRIA
+// 👉 PORTA CORRETA (OBRIGATÓRIO NO RENDER)
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log("Servidor rodando 🚀"));
-
+res.send("TESTE 123 🚀");
