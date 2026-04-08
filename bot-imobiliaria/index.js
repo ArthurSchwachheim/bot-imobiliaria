@@ -64,3 +64,25 @@ app.post("/webhook", (req, res) => {
 app.listen(3000, () => {
   console.log("Servidor rodando na porta 3000");
 });
+app.get("/", (req, res) => {
+  res.send("Bot imobiliário rodando 🚀");
+});
+const express = require("express");
+const app = express();
+
+app.use(express.json());
+
+// 👉 ROTA PRINCIPAL (resolve o "Cannot GET /")
+app.get("/", (req, res) => {
+  res.send("Bot rodando 🚀");
+});
+
+// 👉 SEU WEBHOOK
+app.post("/webhook", (req, res) => {
+  res.json({ reply: "Webhook funcionando ✅" });
+});
+
+// 👉 PORTA OBRIGATÓRIA
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log("Servidor rodando 🚀"));
+
